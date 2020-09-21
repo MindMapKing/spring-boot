@@ -269,11 +269,23 @@ public class SpringApplication {
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+		/**
+		 * 1、spring.facties文件中加载ApplicationContextInitializer的实现类
+		 * 2、实例化后放到当前SpringApplication类中
+		 */
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+		/**
+		 *	1、spring.facties文件中加载ApplicationListener的实现类
+		 *	2、实例化后放到当前SpringApplication类中
+		 */
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
+	/**
+	 * 返回启动程序所在的类型
+	 * @return
+	 */
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
@@ -300,7 +312,13 @@ public class SpringApplication {
 		stopWatch.start();
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+		/**
+		 * 生命服务器模式
+		 */
 		configureHeadlessProperty();
+		/**
+		 * 加载、实例化并开启application的事件监听器（即发布一条application启动的事件）
+		 */
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
@@ -308,6 +326,9 @@ public class SpringApplication {
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			configureIgnoreBeanInfo(environment);
 			Banner printedBanner = printBanner(environment);
+			/**
+			 * 根据类型使用默认构造器创建application
+			 */
 			context = createApplicationContext();
 			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
@@ -339,9 +360,18 @@ public class SpringApplication {
 	private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
 		// Create and configure the environment
+		/**
+		 * 根据不同的启动模式，创建一个环境变量上下文
+		 */
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
+
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
 		ConfigurationPropertySources.attach(environment);
+		/**
+		 * 给监听发送变量环境预备好事件
+		 * 1、事件监听处理器org.springframework.boot.context.config.ConfigFileApplicationListener中处理
+		 * application.properties/application.yml中的配置
+		 */
 		listeners.environmentPrepared(environment);
 		bindToSpringApplication(environment);
 		if (!this.isCustomEnvironment) {
@@ -367,6 +397,9 @@ public class SpringApplication {
 			SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments, Banner printedBanner) {
 		context.setEnvironment(environment);
 		postProcessApplicationContext(context);
+		/**
+		 * 调用ApplicationContextInitializer实现类的初始化方法
+		 */
 		applyInitializers(context);
 		listeners.contextPrepared(context);
 		if (this.logStartupInfo) {
@@ -390,6 +423,9 @@ public class SpringApplication {
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
 		load(context, sources.toArray(new Object[0]));
+		/**
+		 * 给监听发送application预备好事件
+		 */
 		listeners.contextLoaded(context);
 	}
 
@@ -405,6 +441,10 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * 1、在服务器可能缺少显示设备、键盘、鼠标等外设的情况下可以使用这种模式
+	 * 2、现在不要指望硬件的支持了，只能使用系统的运算能力来做些非可视化的处理工作
+	 */
 	private void configureHeadlessProperty() {
 		System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS,
 				System.getProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, Boolean.toString(this.headless)));
@@ -423,12 +463,33 @@ public class SpringApplication {
 	private <T> Collection<T> getSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes, Object... args) {
 		ClassLoader classLoader = getClassLoader();
 		// Use names and ensure unique to protect against duplicates
+		/**
+		 * 1、加载所有spring.facties
+		 * 2、每个spring.facties解析为properties
+		 * 3、将spring.facties中的内容解析为接口->List<实现类>的接口
+		 * 4、将类加载器->spring.facties的解析内容放到缓存中
+		 * 5、匹配返回当前type解析的值
+		 */
 		Set<String> names = new LinkedHashSet<>(SpringFactoriesLoader.loadFactoryNames(type, classLoader));
 		List<T> instances = createSpringFactoriesInstances(type, parameterTypes, classLoader, args, names);
+		/**
+		 * 根据优先级或order注解等排序
+		 */
 		AnnotationAwareOrderComparator.sort(instances);
 		return instances;
 	}
 
+	/**
+	 * 调用spring.facties中的接口实现类的默认构造器，实例化对象
+	 *
+	 * @param type
+	 * @param parameterTypes
+	 * @param classLoader
+	 * @param args
+	 * @param names
+	 * @param <T>
+	 * @return 类的实例化对象列表
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> List<T> createSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes,
 			ClassLoader classLoader, Object[] args, Set<String> names) {
@@ -474,10 +535,16 @@ public class SpringApplication {
 	 * @see #configurePropertySources(ConfigurableEnvironment, String[])
 	 */
 	protected void configureEnvironment(ConfigurableEnvironment environment, String[] args) {
+		/**
+		 * 设置类型转换配置
+		 */
 		if (this.addConversionService) {
 			ConversionService conversionService = ApplicationConversionService.getSharedInstance();
 			environment.setConversionService((ConfigurableConversionService) conversionService);
 		}
+		/**
+		 * 为变量上下文设置配置资源，如contentx-init
+		 */
 		configurePropertySources(environment, args);
 		configureProfiles(environment, args);
 	}
@@ -521,6 +588,9 @@ public class SpringApplication {
 	 */
 	protected void configureProfiles(ConfigurableEnvironment environment, String[] args) {
 		Set<String> profiles = new LinkedHashSet<>(this.additionalProfiles);
+		/**
+		 * 加载激活的配置文件标识
+		 */
 		profiles.addAll(Arrays.asList(environment.getActiveProfiles()));
 		environment.setActiveProfiles(StringUtils.toStringArray(profiles));
 	}
@@ -688,6 +758,10 @@ public class SpringApplication {
 		if (this.environment != null) {
 			loader.setEnvironment(this.environment);
 		}
+		/**
+		 * 设置注解解析器
+		 */
+
 		loader.load();
 	}
 

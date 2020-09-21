@@ -319,6 +319,9 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 					getClass().getClassLoader());
 		}
 
+		/**
+		 * 默认的路径 + 配置名 + 解析类支持的类型（PropertySourceLoader）
+		 */
 		void load() {
 			FilteredPropertySource.apply(this.environment, DEFAULT_PROPERTIES, LOAD_FILTERED_PROPERTY,
 					(defaultProperties) -> {
