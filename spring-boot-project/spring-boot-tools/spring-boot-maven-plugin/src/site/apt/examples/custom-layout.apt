@@ -37,7 +37,7 @@
           <dependency>
             <groupId>com.example</groupId>
             <artifactId>custom-layout</artifactId>
-            <version>0.0.1.BUILD-SNAPSHOT</version>
+            <version>0.0.1</version>
           </dependency>
         </dependencies>
         ...

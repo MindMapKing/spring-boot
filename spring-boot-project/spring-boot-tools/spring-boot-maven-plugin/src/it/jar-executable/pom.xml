@@ -6,7 +6,7 @@
 	<artifactId>jar-executable</artifactId>
 	<name>MyFullyExecutableJarName</name>
 	<description>MyFullyExecutableJarDesc</description>
-	<version>0.0.1.BUILD-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>@java.version@</maven.compiler.source>

@@ -17,7 +17,7 @@
 import java.io.*;
 import org.springframework.boot.maven.*;
 
-File f = new File(basedir, "target/jar-system-scope-default-0.0.1.BUILD-SNAPSHOT.jar")
+File f = new File(basedir, "target/jar-system-scope-default-0.0.1.jar")
 new Verify.JarArchiveVerification(f, Verify.SAMPLE_APP) {
 	@Override
 	protected void verifyZipEntries(Verify.ArchiveVerifier verifier) throws Exception {

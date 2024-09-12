@@ -1,4 +1,4 @@
-def jarfile = './target/executable-props-lib-0.0.1.BUILD-SNAPSHOT-app.jar'
+def jarfile = './target/executable-props-lib-0.0.1-app.jar'
 
 new File("${basedir}/application.properties").delete()
 

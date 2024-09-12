@@ -5,5 +5,5 @@ import static org.junit.Assert.assertTrue
 def file = new File(basedir, "target/build.info")
 Properties properties = Verify.verifyBuildInfo(file,
 		'org.springframework.boot.maven.it', 'build-info-custom-file',
-		'Generate custom build info', '0.0.1.BUILD-SNAPSHOT')
+		'Generate custom build info', '0.0.1')
 assertTrue properties.containsKey('build.time')

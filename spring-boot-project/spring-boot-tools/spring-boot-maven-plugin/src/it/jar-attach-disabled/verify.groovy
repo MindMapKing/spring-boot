@@ -3,8 +3,8 @@ import org.springframework.boot.maven.*
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 
-File main = new File(basedir, "target/jar-attach-disabled-0.0.1.BUILD-SNAPSHOT.jar")
-File backup = new File(basedir, "target/jar-attach-disabled-0.0.1.BUILD-SNAPSHOT.jar.original")
+File main = new File(basedir, "target/jar-attach-disabled-0.0.1.jar")
+File backup = new File(basedir, "target/jar-attach-disabled-0.0.1.jar.original")
 Verify.verifyJar(main, "some.random.Main")
 assertTrue 'backup file should exist', backup.exists()
 

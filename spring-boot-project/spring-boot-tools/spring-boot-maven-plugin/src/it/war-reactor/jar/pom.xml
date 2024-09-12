@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot.maven.it</groupId>
 		<artifactId>war-reactor</artifactId>
-		<version>0.0.1.BUILD-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>jar</artifactId>
 	<packaging>jar</packaging>

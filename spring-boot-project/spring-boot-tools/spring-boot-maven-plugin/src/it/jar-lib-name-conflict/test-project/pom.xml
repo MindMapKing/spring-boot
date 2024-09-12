@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.boot.maven.it</groupId>
 	<artifactId>test-project</artifactId>
-	<version>0.0.1.BUILD-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>@java.version@</maven.compiler.source>
@@ -43,12 +43,12 @@
 		<dependency>
 			<groupId>org.springframework.boot.maven.it</groupId>
 			<artifactId>acme-lib</artifactId>
-			<version>0.0.1.BUILD-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot.maven.it.another</groupId>
 			<artifactId>acme-lib</artifactId>
-			<version>0.0.1.BUILD-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.servlet</groupId>

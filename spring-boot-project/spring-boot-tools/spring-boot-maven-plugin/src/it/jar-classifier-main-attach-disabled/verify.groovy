@@ -3,9 +3,9 @@ import org.springframework.boot.maven.*
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 
-File repackaged = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1.BUILD-SNAPSHOT-test.jar")
-File main = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1.BUILD-SNAPSHOT.jar")
-File backup = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1.BUILD-SNAPSHOT.jar.original")
+File repackaged = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1-test.jar")
+File main = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1.jar")
+File backup = new File(basedir, "target/jar-classifier-main-attach-disabled-0.0.1.jar.original")
 
 new Verify.JarArchiveVerification(repackaged, Verify.SAMPLE_APP).verify();
 assertTrue 'main artifact should exist', main.exists()

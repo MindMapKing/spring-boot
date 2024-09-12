@@ -163,7 +163,7 @@
 		"default": "1.1.8.RELEASE",
 		"values": [
 			{
-				"id": "1.2.0.BUILD-SNAPSHOT",
+				"id": "1.2.0",
 				"name": "1.2.0 (SNAPSHOT)"
 			},
 			{
@@ -171,7 +171,7 @@
 				"name": "1.1.8"
 			},
 			{
-				"id": "1.1.8.BUILD-SNAPSHOT",
+				"id": "1.1.8",
 				"name": "1.1.8 (SNAPSHOT)"
 			},
 			{
